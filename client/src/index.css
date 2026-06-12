@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme {
+  /* Accent: warm amber/gold — used sparingly */
+  --color-accent: #f59e0b;
+  --color-accent-dim: #d97706;
+  --color-accent-soft: #fef3c7;
+
+  /* Fonts */
+  --font-family-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-family-body: "Geist", "Inter", system-ui, sans-serif;
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+html {
+  font-family: var(--font-family-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  @apply bg-gray-50 text-gray-900 dark:bg-neutral-950 dark:text-gray-100;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+/* ── Typography helpers ───────────────────────────────────────────────────── */
+.font-display {
+  font-family: var(--font-family-display);
+}
+
+/* Tabular figures so scoreline digits stay aligned */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Scrollbar ────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-neutral-700 rounded-full;
+}
+
+/* Hide scrollbar while preserving scroll — used on the stage-jump chip strip */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Live pulse animation ─────────────────────────────────────────────────── */
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+.live-dot {
+  animation: pulse-dot 1.4s ease-in-out infinite;
+}
+
+/* ── Progress bar fill ────────────────────────────────────────────────────── */
+.progress-bar {
+  @apply h-1.5 rounded-full bg-gray-200 dark:bg-neutral-800 overflow-hidden;
+}
+.progress-fill {
+  @apply h-full rounded-full bg-accent transition-all duration-700 ease-out;
+}
