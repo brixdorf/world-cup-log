@@ -58,11 +58,7 @@ export default function App() {
         onRefresh={handleRefresh}
       />
 
-      <StageNav
-        matches={matches}
-        filter={filter}
-        onFilterChange={setFilter}
-      />
+      <StageNav matches={matches} filter={filter} onFilterChange={setFilter} />
 
       <main className="max-w-4xl mx-auto px-4 py-8 space-y-14">
         {dashboard && <Dashboard stats={dashboard} />}

@@ -3,18 +3,18 @@ import { ArrowUp } from "lucide-react";
 
 // Must stay in sync with the id= attributes on GroupStage / KnockoutStage sections
 const STAGES = [
-  { key: "GROUP_STAGE",    label: "Group Stage",    id: "group-stage"         },
-  { key: "LAST_32",        label: "Round of 32",    id: "round-of-32"         },
-  { key: "LAST_16",        label: "Round of 16",    id: "round-of-16"         },
-  { key: "QUARTER_FINALS", label: "Quarter-finals", id: "quarter-finals"      },
-  { key: "SEMI_FINALS",    label: "Semi-finals",    id: "semi-finals"         },
-  { key: "THIRD_PLACE",    label: "3rd Place",      id: "third-place-playoff" },
-  { key: "FINAL",          label: "Final",          id: "final"               },
+  { key: "GROUP_STAGE", label: "Group Stage", id: "group-stage" },
+  { key: "LAST_32", label: "Round of 32", id: "round-of-32" },
+  { key: "LAST_16", label: "Round of 16", id: "round-of-16" },
+  { key: "QUARTER_FINALS", label: "Quarter-finals", id: "quarter-finals" },
+  { key: "SEMI_FINALS", label: "Semi-finals", id: "semi-finals" },
+  { key: "THIRD_PLACE", label: "3rd Place", id: "third-place-playoff" },
+  { key: "FINAL", label: "Final", id: "final" },
 ];
 
 const FILTERS = [
-  { value: "all",     label: "All"       },
-  { value: "played",  label: "Watched"   },
+  { value: "all", label: "All" },
+  { value: "played", label: "Watched" },
   { value: "towatch", label: "Unwatched" },
 ];
 

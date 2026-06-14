@@ -10,7 +10,9 @@ function StatChip({ label, value, sub, valueColor, subColor }) {
         {label}
       </span>
       {sub && (
-        <span className={`text-[11px] mt-0.5 ${subColor ?? "text-gray-400 dark:text-gray-600"}`}>
+        <span
+          className={`text-[11px] mt-0.5 ${subColor ?? "text-gray-400 dark:text-gray-600"}`}
+        >
           {sub}
         </span>
       )}
@@ -22,7 +24,9 @@ function ProgressRow({ label, pct }) {
   return (
     <div className="space-y-1.5">
       <div className="flex justify-between items-baseline">
-        <span className="text-sm text-gray-600 dark:text-gray-400">{label}</span>
+        <span className="text-sm text-gray-600 dark:text-gray-400">
+          {label}
+        </span>
         <span className="text-sm font-medium tabular text-gray-900 dark:text-gray-100">
           {pct}%
         </span>
@@ -104,8 +108,8 @@ export default function Dashboard({ stats }) {
       {/* Progress bars */}
       <div className="p-5 rounded-xl bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 space-y-4">
         <ProgressRow label="Overall completion" pct={overallCompletionPct} />
-        <ProgressRow label="Group stage"        pct={groupCompletionPct}   />
-        <ProgressRow label="Knockout rounds"    pct={knockoutCompletionPct}/>
+        <ProgressRow label="Group stage" pct={groupCompletionPct} />
+        <ProgressRow label="Knockout rounds" pct={knockoutCompletionPct} />
       </div>
 
       {longestStreak > 0 && (

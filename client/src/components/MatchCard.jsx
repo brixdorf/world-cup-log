@@ -103,7 +103,9 @@ export default function MatchCard({ match, isLoggedIn, onUpdate }) {
     await onUpdate(id, { highlights_watched: !highlights_watched });
   }
   async function toggleExtended() {
-    await onUpdate(id, { extended_highlights_watched: !extended_highlights_watched });
+    await onUpdate(id, {
+      extended_highlights_watched: !extended_highlights_watched,
+    });
   }
   async function toggleFullMatch() {
     await onUpdate(id, { full_match_watched: !full_match_watched });

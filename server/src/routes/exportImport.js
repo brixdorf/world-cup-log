@@ -14,15 +14,15 @@ function makeRouter(db) {
       exportedAt: new Date().toISOString(),
       version: 1,
       personal: rows.map((r) => ({
-        matchId:                    r.match_id,
-        highlightsWatched:          Boolean(r.highlights_watched),
-        extendedHighlightsWatched:  Boolean(r.extended_highlights_watched),
-        fullMatchWatched:           Boolean(r.full_match_watched),
-        note:                       r.note,
-        highlightsAt:               r.highlights_at,
-        extendedHighlightsAt:       r.extended_highlights_at,
-        fullMatchAt:                r.full_match_at,
-        updatedAt:                  r.updated_at,
+        matchId: r.match_id,
+        highlightsWatched: Boolean(r.highlights_watched),
+        extendedHighlightsWatched: Boolean(r.extended_highlights_watched),
+        fullMatchWatched: Boolean(r.full_match_watched),
+        note: r.note,
+        highlightsAt: r.highlights_at,
+        extendedHighlightsAt: r.extended_highlights_at,
+        fullMatchAt: r.full_match_at,
+        updatedAt: r.updated_at,
       })),
     };
 
@@ -69,14 +69,14 @@ function makeRouter(db) {
           continue;
         }
         upsert.run({
-          matchId:  item.matchId,
-          hl:       item.highlightsWatched         ? 1 : 0,
-          ehl:      item.extendedHighlightsWatched ? 1 : 0,  // 0 when field absent (old export)
-          fm:       item.fullMatchWatched          ? 1 : 0,
-          note:     item.note     || null,
-          hlAt:     item.highlightsAt              || null,
-          ehlAt:    item.extendedHighlightsAt      || null,   // null when field absent (old export)
-          fmAt:     item.fullMatchAt               || null,
+          matchId: item.matchId,
+          hl: item.highlightsWatched ? 1 : 0,
+          ehl: item.extendedHighlightsWatched ? 1 : 0, // 0 when field absent (old export)
+          fm: item.fullMatchWatched ? 1 : 0,
+          note: item.note || null,
+          hlAt: item.highlightsAt || null,
+          ehlAt: item.extendedHighlightsAt || null, // null when field absent (old export)
+          fmAt: item.fullMatchAt || null,
           updatedAt: item.updatedAt || new Date().toISOString(),
         });
         imported++;

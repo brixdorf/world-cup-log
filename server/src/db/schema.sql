@@ -23,13 +23,13 @@ CREATE TABLE
 -- so toggling one checkbox never touches the others or the note.
 CREATE TABLE
   IF NOT EXISTS personal (
-    match_id                    INTEGER PRIMARY KEY REFERENCES matches (id),
-    highlights_watched          INTEGER NOT NULL DEFAULT 0,
+    match_id INTEGER PRIMARY KEY REFERENCES matches (id),
+    highlights_watched INTEGER NOT NULL DEFAULT 0,
     extended_highlights_watched INTEGER NOT NULL DEFAULT 0, -- "extended highlights" third watch type
-    full_match_watched          INTEGER NOT NULL DEFAULT 0,
-    note                        TEXT,
-    highlights_at               TEXT, -- IST date "YYYY-MM-DD" set when ticked ON, cleared when OFF
-    extended_highlights_at      TEXT, -- same — used solely for streak computation, never displayed
-    full_match_at               TEXT, -- same
-    updated_at                  TEXT NOT NULL DEFAULT (datetime ('now'))
+    full_match_watched INTEGER NOT NULL DEFAULT 0,
+    note TEXT,
+    highlights_at TEXT, -- IST date "YYYY-MM-DD" set when ticked ON, cleared when OFF
+    extended_highlights_at TEXT, -- same — used solely for streak computation, never displayed
+    full_match_at TEXT, -- same
+    updated_at TEXT NOT NULL DEFAULT (datetime ('now'))
   );
