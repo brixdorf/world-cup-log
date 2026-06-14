@@ -19,15 +19,17 @@ CREATE TABLE
   );
 
 -- My personal layer. Irreplaceable. Keyed by football-data.org match ID.
--- Each column is updated independently via ON CONFLICT ... DO UPDATE SET
--- so toggling one checkbox never touches the other or the note.
+-- Each column group is updated independently via ON CONFLICT ... DO UPDATE SET
+-- so toggling one checkbox never touches the others or the note.
 CREATE TABLE
   IF NOT EXISTS personal (
-    match_id INTEGER PRIMARY KEY REFERENCES matches (id),
-    highlights_watched INTEGER NOT NULL DEFAULT 0,
-    full_match_watched INTEGER NOT NULL DEFAULT 0,
-    note TEXT,
-    highlights_at TEXT, -- IST date "YYYY-MM-DD" set when ticked ON, cleared when OFF
-    full_match_at TEXT, -- same — used solely for streak computation, never displayed
-    updated_at TEXT NOT NULL DEFAULT (datetime ('now'))
+    match_id                    INTEGER PRIMARY KEY REFERENCES matches (id),
+    highlights_watched          INTEGER NOT NULL DEFAULT 0,
+    extended_highlights_watched INTEGER NOT NULL DEFAULT 0, -- "extended highlights" third watch type
+    full_match_watched          INTEGER NOT NULL DEFAULT 0,
+    note                        TEXT,
+    highlights_at               TEXT, -- IST date "YYYY-MM-DD" set when ticked ON, cleared when OFF
+    extended_highlights_at      TEXT, -- same — used solely for streak computation, never displayed
+    full_match_at               TEXT, -- same
+    updated_at                  TEXT NOT NULL DEFAULT (datetime ('now'))
   );
