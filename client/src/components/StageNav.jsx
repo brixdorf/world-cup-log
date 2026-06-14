@@ -13,9 +13,9 @@ const STAGES = [
 ];
 
 const FILTERS = [
-  { value: "all",     label: "All"      },
-  { value: "played",  label: "Played"   },
-  { value: "towatch", label: "To Watch" },
+  { value: "all",     label: "All"       },
+  { value: "played",  label: "Watched"   },
+  { value: "towatch", label: "Unwatched" },
 ];
 
 export default function StageNav({ matches, filter, onFilterChange }) {

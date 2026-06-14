@@ -14,7 +14,7 @@ export default function App() {
   const { matches, dashboard, loading, error, refresh, updatePersonal } =
     useMatches();
   const [showLogin, setShowLogin] = useState(false);
-  const [filter, setFilter] = useState("all"); // 'all' | 'played' | 'towatch'
+  const [filter, setFilter] = useState("all"); // 'all' | 'played' (watched) | 'towatch' (unwatched)
 
   // Refresh: re-fetch from football-data.org on the server, then reload local state
   const handleRefresh = useCallback(async () => {
@@ -23,7 +23,14 @@ export default function App() {
   }, [refresh]);
 
   const filteredMatches = (() => {
-    if (filter === "played") return matches.filter((m) => m.status === "FINISHED");
+    if (filter === "played")
+      return matches.filter(
+        (m) =>
+          m.status === "FINISHED" &&
+          (m.highlights_watched ||
+            m.extended_highlights_watched ||
+            m.full_match_watched),
+      );
     if (filter === "towatch")
       return matches.filter(
         (m) =>

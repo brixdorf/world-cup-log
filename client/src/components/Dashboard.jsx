@@ -1,4 +1,4 @@
-function StatChip({ label, value, sub, valueColor }) {
+function StatChip({ label, value, sub, valueColor, subColor }) {
   return (
     <div className="flex flex-col items-center justify-center text-center p-4 rounded-xl bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 w-full">
       <span
@@ -10,7 +10,7 @@ function StatChip({ label, value, sub, valueColor }) {
         {label}
       </span>
       {sub && (
-        <span className="text-[11px] text-gray-400 dark:text-gray-600 mt-0.5">
+        <span className={`text-[11px] mt-0.5 ${subColor ?? "text-gray-400 dark:text-gray-600"}`}>
           {sub}
         </span>
       )}
@@ -64,7 +64,16 @@ export default function Dashboard({ stats }) {
         <StatChip
           label="Matches played"
           value={finishedMatches}
-          sub={finishedMatches < totalMatches ? `of ${totalMatches}` : undefined}
+          sub={
+            finishedMatches < totalMatches
+              ? `of ${totalMatches}`
+              : "Tournament Complete"
+          }
+          subColor={
+            finishedMatches === totalMatches
+              ? "text-green-600 dark:text-green-400"
+              : undefined
+          }
         />
         <StatChip
           label="To Watch"
