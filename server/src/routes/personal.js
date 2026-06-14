@@ -20,7 +20,7 @@ function makeRouter(db) {
     VALUES (?, ?, ?, datetime('now'))
     ON CONFLICT(match_id) DO UPDATE SET
       highlights_watched = excluded.highlights_watched,
-      highlights_at      = excluded.highlights_at,
+      highlights_at      = COALESCE(personal.highlights_at, excluded.highlights_at),
       updated_at         = excluded.updated_at
   `);
 
@@ -29,7 +29,7 @@ function makeRouter(db) {
     VALUES (?, ?, ?, datetime('now'))
     ON CONFLICT(match_id) DO UPDATE SET
       extended_highlights_watched = excluded.extended_highlights_watched,
-      extended_highlights_at      = excluded.extended_highlights_at,
+      extended_highlights_at      = COALESCE(personal.extended_highlights_at, excluded.extended_highlights_at),
       updated_at                  = excluded.updated_at
   `);
 
@@ -38,7 +38,7 @@ function makeRouter(db) {
     VALUES (?, ?, ?, datetime('now'))
     ON CONFLICT(match_id) DO UPDATE SET
       full_match_watched = excluded.full_match_watched,
-      full_match_at      = excluded.full_match_at,
+      full_match_at      = COALESCE(personal.full_match_at, excluded.full_match_at),
       updated_at         = excluded.updated_at
   `);
 
