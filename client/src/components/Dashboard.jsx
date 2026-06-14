@@ -1,14 +1,16 @@
-function StatChip({ label, value, sub }) {
+function StatChip({ label, value, sub, valueColor }) {
   return (
-    <div className="flex flex-col items-center justify-center text-center p-4 rounded-xl bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 flex-1 min-w-0">
-      <span className="font-display text-3xl font-bold tabular leading-none text-gray-900 dark:text-gray-100">
+    <div className="flex flex-col items-center justify-center text-center p-4 rounded-xl bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 w-full">
+      <span
+        className={`font-display text-3xl font-bold tabular leading-none ${valueColor ?? "text-gray-900 dark:text-gray-100"}`}
+      >
         {value}
       </span>
       <span className="text-xs text-gray-500 dark:text-gray-400 mt-1 leading-tight">
         {label}
       </span>
       {sub && (
-        <span className="text-[11px] text-accent font-medium mt-0.5">
+        <span className="text-[11px] text-gray-400 dark:text-gray-600 mt-0.5">
           {sub}
         </span>
       )}
@@ -20,9 +22,7 @@ function ProgressRow({ label, pct }) {
   return (
     <div className="space-y-1.5">
       <div className="flex justify-between items-baseline">
-        <span className="text-sm text-gray-600 dark:text-gray-400">
-          {label}
-        </span>
+        <span className="text-sm text-gray-600 dark:text-gray-400">{label}</span>
         <span className="text-sm font-medium tabular text-gray-900 dark:text-gray-100">
           {pct}%
         </span>
@@ -42,6 +42,7 @@ export default function Dashboard({ stats }) {
     finishedMatches,
     highlightsWatched,
     fullMatchWatched,
+    toWatch,
     overallCompletionPct,
     groupCompletionPct,
     knockoutCompletionPct,
@@ -55,34 +56,49 @@ export default function Dashboard({ stats }) {
         My Journey
       </h2>
 
-      {/* Stat chips */}
-      <div className="flex gap-3 overflow-x-auto pb-1">
+      {/*
+        5 chips: grid-cols-2 on mobile (2+2, with Streak spanning both cols on row 3),
+        grid-cols-5 on sm+ (all in one row).
+      */}
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
         <StatChip
-          label="Total matches"
-          value={totalMatches}
-          sub={`${finishedMatches} played`}
+          label="Matches played"
+          value={finishedMatches}
+          sub={finishedMatches < totalMatches ? `of ${totalMatches}` : undefined}
         />
-        <StatChip label="Highlights watched" value={highlightsWatched} />
-        <StatChip label="Full matches" value={fullMatchWatched} />
         <StatChip
-          label="Streak"
-          value={currentStreak}
-          sub={
-            currentStreak > 0
-              ? `Best ${longestStreak}`
-              : `Best ${longestStreak}`
-          }
+          label="To Watch"
+          value={toWatch}
+          valueColor="text-red-500 dark:text-red-400"
         />
+        <StatChip
+          label="Highlights watched"
+          value={highlightsWatched}
+          valueColor="text-green-600 dark:text-green-400"
+        />
+        <StatChip
+          label="Full matches watched"
+          value={fullMatchWatched}
+          valueColor="text-green-600 dark:text-green-400"
+        />
+        {/* Streak spans both columns on mobile so it fills the row cleanly */}
+        <div className="col-span-2 sm:col-span-1">
+          <StatChip
+            label="Streak"
+            value={currentStreak}
+            valueColor="text-accent"
+            sub={`Best ${longestStreak}`}
+          />
+        </div>
       </div>
 
       {/* Progress bars */}
       <div className="p-5 rounded-xl bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 space-y-4">
         <ProgressRow label="Overall completion" pct={overallCompletionPct} />
-        <ProgressRow label="Group stage" pct={groupCompletionPct} />
-        <ProgressRow label="Knockout rounds" pct={knockoutCompletionPct} />
+        <ProgressRow label="Group stage"        pct={groupCompletionPct}   />
+        <ProgressRow label="Knockout rounds"    pct={knockoutCompletionPct}/>
       </div>
 
-      {/* Streak callout */}
       {longestStreak > 0 && (
         <p className="text-sm text-gray-500 dark:text-gray-400">
           {currentStreak > 0 ? (

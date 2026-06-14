@@ -14,7 +14,7 @@ export default function App() {
   const { matches, dashboard, loading, error, refresh, updatePersonal } =
     useMatches();
   const [showLogin, setShowLogin] = useState(false);
-  const [filter, setFilter] = useState("all"); // 'all' | 'finished' | 'unwatched'
+  const [filter, setFilter] = useState("all"); // 'all' | 'played' | 'towatch'
 
   // Refresh: re-fetch from football-data.org on the server, then reload local state
   const handleRefresh = useCallback(async () => {
@@ -22,15 +22,15 @@ export default function App() {
     await refresh();
   }, [refresh]);
 
-  // Apply active filter to the full match list
   const filteredMatches = (() => {
-    if (filter === "finished")
-      return matches.filter((m) => m.status === "FINISHED");
-    if (filter === "unwatched")
+    if (filter === "played") return matches.filter((m) => m.status === "FINISHED");
+    if (filter === "towatch")
       return matches.filter(
         (m) =>
           m.status === "FINISHED" &&
-          (!m.highlights_watched || !m.full_match_watched),
+          !m.highlights_watched &&
+          !m.extended_highlights_watched &&
+          !m.full_match_watched,
       );
     return matches;
   })();
@@ -40,7 +40,6 @@ export default function App() {
     (m) => m.stage !== "GROUP_STAGE",
   );
 
-  // Don't render anything until we know the auth state (avoids flash of wrong UI)
   if (checking) return null;
 
   return (
@@ -52,7 +51,11 @@ export default function App() {
         onRefresh={handleRefresh}
       />
 
-      <StageNav matches={matches} filter={filter} onFilterChange={setFilter} />
+      <StageNav
+        matches={matches}
+        filter={filter}
+        onFilterChange={setFilter}
+      />
 
       <main className="max-w-4xl mx-auto px-4 py-8 space-y-14">
         {dashboard && <Dashboard stats={dashboard} />}

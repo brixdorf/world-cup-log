@@ -1,7 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
-
 function formatTime(utcDate) {
   return new Intl.DateTimeFormat("en-US", {
     timeZone: "Asia/Kolkata",
@@ -35,8 +33,6 @@ function TeamCrest({ src, name }) {
   );
 }
 
-// ── Main component ────────────────────────────────────────────────────────────
-
 export default function MatchCard({ match, isLoggedIn, onUpdate }) {
   const {
     id,
@@ -51,6 +47,7 @@ export default function MatchCard({ match, isLoggedIn, onUpdate }) {
     score_away,
     winner,
     highlights_watched,
+    extended_highlights_watched,
     full_match_watched,
     note,
   } = match;
@@ -61,7 +58,6 @@ export default function MatchCard({ match, isLoggedIn, onUpdate }) {
   const homeName = home_team || (stage !== "GROUP_STAGE" ? "TBD" : "?");
   const awayName = away_team || (stage !== "GROUP_STAGE" ? "TBD" : "?");
 
-  // ── Note editing ─────────────────────────────────────────────────────────
   const [editing, setEditing] = useState(false);
   const [noteText, setNoteText] = useState(note || "");
   const [saving, setSaving] = useState(false);
@@ -106,6 +102,9 @@ export default function MatchCard({ match, isLoggedIn, onUpdate }) {
   async function toggleHighlights() {
     await onUpdate(id, { highlights_watched: !highlights_watched });
   }
+  async function toggleExtended() {
+    await onUpdate(id, { extended_highlights_watched: !extended_highlights_watched });
+  }
   async function toggleFullMatch() {
     await onUpdate(id, { full_match_watched: !full_match_watched });
   }
@@ -118,7 +117,7 @@ export default function MatchCard({ match, isLoggedIn, onUpdate }) {
     <article
       className={`rounded-xl border p-3 space-y-2 bg-white dark:bg-neutral-900 transition-colors ${cardBorder}`}
     >
-      {/* ── Header: kickoff date·time always shown; FT or LIVE appended ─── */}
+      {/* Date · time · status */}
       <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
         <span>
           {formatDate(utc_date)} · {formatTime(utc_date)}
@@ -137,9 +136,8 @@ export default function MatchCard({ match, isLoggedIn, onUpdate }) {
         )}
       </div>
 
-      {/* ── Teams + score: names pressed toward the centre score ─────────── */}
+      {/* Teams + score */}
       <div className="flex items-center gap-1.5">
-        {/* Home — right-aligned, crest outside the name */}
         <div className="flex items-center gap-1.5 flex-1 min-w-0 justify-end">
           <span
             className={[
@@ -154,7 +152,6 @@ export default function MatchCard({ match, isLoggedIn, onUpdate }) {
           <TeamCrest src={home_crest} name={homeName} />
         </div>
 
-        {/* Score / vs */}
         <div className="tabular font-display font-bold shrink-0 w-12 text-center">
           {isFinished || isLive ? (
             <span
@@ -173,7 +170,6 @@ export default function MatchCard({ match, isLoggedIn, onUpdate }) {
           )}
         </div>
 
-        {/* Away — left-aligned, crest outside the name */}
         <div className="flex items-center gap-1.5 flex-1 min-w-0">
           <TeamCrest src={away_crest} name={awayName} />
           <span
@@ -189,10 +185,11 @@ export default function MatchCard({ match, isLoggedIn, onUpdate }) {
         </div>
       </div>
 
-      {/* ── Controls: only rendered for finished matches ──────────────────── */}
+      {/* Controls — only for finished matches */}
       {isFinished && (
         <>
-          <div className="flex items-center gap-5 pt-0.5">
+          {/* flex-wrap lets three checkboxes reflow on narrow cards */}
+          <div className="flex flex-wrap gap-x-4 gap-y-1.5 pt-0.5">
             <label
               className={`flex items-center gap-1.5 text-xs select-none ${isLoggedIn ? "cursor-pointer" : "opacity-50"}`}
             >
@@ -205,6 +202,21 @@ export default function MatchCard({ match, isLoggedIn, onUpdate }) {
               />
               <span className="text-gray-600 dark:text-gray-400">
                 Highlights
+              </span>
+            </label>
+
+            <label
+              className={`flex items-center gap-1.5 text-xs select-none ${isLoggedIn ? "cursor-pointer" : "opacity-50"}`}
+            >
+              <input
+                type="checkbox"
+                checked={extended_highlights_watched}
+                onChange={isLoggedIn ? toggleExtended : undefined}
+                disabled={!isLoggedIn}
+                className="w-3.5 h-3.5 accent-green-500"
+              />
+              <span className="text-gray-600 dark:text-gray-400">
+                Extended Highlights
               </span>
             </label>
 

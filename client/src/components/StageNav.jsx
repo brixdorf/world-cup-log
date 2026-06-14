@@ -3,19 +3,19 @@ import { ArrowUp } from "lucide-react";
 
 // Must stay in sync with the id= attributes on GroupStage / KnockoutStage sections
 const STAGES = [
-  { key: "GROUP_STAGE", label: "Group Stage", id: "group-stage" },
-  { key: "LAST_32", label: "Round of 32", id: "round-of-32" },
-  { key: "LAST_16", label: "Round of 16", id: "round-of-16" },
-  { key: "QUARTER_FINALS", label: "Quarter-finals", id: "quarter-finals" },
-  { key: "SEMI_FINALS", label: "Semi-finals", id: "semi-finals" },
-  { key: "THIRD_PLACE", label: "3rd Place", id: "third-place-playoff" },
-  { key: "FINAL", label: "Final", id: "final" },
+  { key: "GROUP_STAGE",    label: "Group Stage",    id: "group-stage"         },
+  { key: "LAST_32",        label: "Round of 32",    id: "round-of-32"         },
+  { key: "LAST_16",        label: "Round of 16",    id: "round-of-16"         },
+  { key: "QUARTER_FINALS", label: "Quarter-finals", id: "quarter-finals"      },
+  { key: "SEMI_FINALS",    label: "Semi-finals",    id: "semi-finals"         },
+  { key: "THIRD_PLACE",    label: "3rd Place",      id: "third-place-playoff" },
+  { key: "FINAL",          label: "Final",          id: "final"               },
 ];
 
 const FILTERS = [
-  { value: "all", label: "All" },
-  { value: "finished", label: "Finished" },
-  { value: "unwatched", label: "Unwatched" },
+  { value: "all",     label: "All"      },
+  { value: "played",  label: "Played"   },
+  { value: "towatch", label: "To Watch" },
 ];
 
 export default function StageNav({ matches, filter, onFilterChange }) {
@@ -27,7 +27,6 @@ export default function StageNav({ matches, filter, onFilterChange }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Only show chips for stages that have at least one match in the full (unfiltered) list
   const presentStages = new Set(matches.map((m) => m.stage));
   const visibleStages = STAGES.filter((s) => presentStages.has(s.key));
 
@@ -54,7 +53,7 @@ export default function StageNav({ matches, filter, onFilterChange }) {
             ))}
           </div>
 
-          {/* Filter row */}
+          {/* Filter pills */}
           <div className="flex items-center gap-0.5 pb-2">
             {FILTERS.map(({ value, label }) => (
               <button
@@ -74,7 +73,6 @@ export default function StageNav({ matches, filter, onFilterChange }) {
         </div>
       </nav>
 
-      {/* Back to top — fixed, appears after scrolling down */}
       {showBackToTop && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
